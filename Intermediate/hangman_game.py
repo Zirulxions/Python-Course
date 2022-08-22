@@ -306,8 +306,10 @@ def word_input():
 
 def word_choice():
     word_select = [letter for letter in (map(lambda x: x.strip(), str(random.choice(word_input()))))]
-    word_select.remove('')
-    # print(word_select)
+    try:
+        word_select.remove('')
+    except:
+        pass
     return word_select
 
 def user_play(list_word,user_letter,places):
@@ -321,9 +323,6 @@ def user_play(list_word,user_letter,places):
     except ValueError:
         return False
 
-    print(list_word)
-    print(places)
-
 def run():
     # Choosing words and Start
     os.system("cls")
@@ -332,11 +331,16 @@ def run():
     spaces = ["_" for value in word]
     repeat = 1
     errors = 0
+    used_letters = []
     while repeat == 1:
         ascii_title()
         ascii_player(errors)
         print("Adivina la palabra !")
         print(f"Errores {errors}")
+        print("Letras Usadas: ",end = " ")
+        for letters in used_letters:
+            print(letters,end = " ")
+        print("\n")
         for sting in spaces:
             print(sting, end = " ")
         letter = str(input("\nIngrese una letra: "))
@@ -352,17 +356,14 @@ def run():
             spaces.index("_")
         except:
             user_win()
+        try:
+            used_letters.index(letter.upper())
+        except:
+            used_letters.append(letter.upper())
+        finally:
+            used_letters.sort()
     user_lost()
 
 
 if __name__ == '__main__':
     run()
-
-# def commented_code():
-
-    # print(data)
-    # word = [letter for letter in word_choice()]
-    # word.remove('')
-    # print(word)
-    
-    # pass
